@@ -1,3 +1,3 @@
-module github.com/ifeanyibatman/tagSonic
+module github.com/ifeanyiBatman/tagSonic
 
 go 1.25.4
