@@ -1,4 +1,4 @@
-package fingerprinting
+package acoustid
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type AcousticIDResponse struct {
+type acoustIDResponse struct {
 	Status string `json:"status"`
 	Error  struct {
 		Message string `json:"message"`
@@ -29,7 +29,7 @@ type SongMetadata struct {
 	Artist string
 }
 
-func GetMetadata(fingerprint string, duration float64, APIKey string) (*SongMetadata, error) {
+func LookupMetadata(fingerprint string, duration float64, apiKey string) (*SongMetadata, error) {
 	lookupURL := "https://api.acoustid.org/v2/lookup"
 
 	req, err := http.NewRequest("GET", lookupURL, nil)
@@ -38,10 +38,10 @@ func GetMetadata(fingerprint string, duration float64, APIKey string) (*SongMeta
 	}
 
 	q := req.URL.Query()
-	q.Add("client", APIKey)
+	q.Add("client", apiKey)
 	q.Add("fingerprint", fingerprint)
 	q.Add("duration", fmt.Sprintf("%d", int(duration)))
-	q.Add("meta", "recordings") // Request metadata!
+	q.Add("meta", "recordings")
 	req.URL.RawQuery = q.Encode()
 
 	res, err := http.DefaultClient.Do(req)
@@ -50,20 +50,20 @@ func GetMetadata(fingerprint string, duration float64, APIKey string) (*SongMeta
 	}
 	defer res.Body.Close()
 
-	var acousticIDResponse AcousticIDResponse
-	if err := json.NewDecoder(res.Body).Decode(&acousticIDResponse); err != nil {
+	var response acoustIDResponse
+	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
 		return nil, err
 	}
 
-	if acousticIDResponse.Status == "error" {
-		return nil, fmt.Errorf("AcoustID API error: %s", acousticIDResponse.Error.Message)
+	if response.Status == "error" {
+		return nil, fmt.Errorf("AcoustID API error: %s", response.Error.Message)
 	}
 
-	if len(acousticIDResponse.Results) == 0 {
+	if len(response.Results) == 0 {
 		return nil, fmt.Errorf("no results found for fingerprint")
 	}
 
-	result := acousticIDResponse.Results[0]
+	result := response.Results[0]
 
 	meta := &SongMetadata{
 		ID: result.ID,
@@ -77,5 +77,4 @@ func GetMetadata(fingerprint string, duration float64, APIKey string) (*SongMeta
 	}
 
 	return meta, nil
-
 }

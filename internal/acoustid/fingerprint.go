@@ -1,4 +1,4 @@
-package fingerprinting
+package acoustid
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 
 type FingerprintResult struct {
 	Duration    float64 `json:"duration"`
-	FingerPrint string  `json:"fingerprint"`
+	Fingerprint string  `json:"fingerprint"`
 }
 
 func Fingerprint(filepath string) (FingerprintResult, error) {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ifeanyiBatman/tagSonic/internal/fingerprinting"
-	"github.com/ifeanyiBatman/tagSonic/internal/readFolder"
+	"github.com/ifeanyiBatman/tagSonic/internal/acoustid"
+	"github.com/ifeanyiBatman/tagSonic/internal/scanner"
 	"github.com/joho/godotenv"
 )
 
@@ -17,14 +17,14 @@ func main() {
 
 	acousticIDAPIKey := os.Getenv("AcousticIDAPIKey")
 	fmt.Println("Hello World")
-	songs, err := readFolder.ReadDirTolist("./audios")
+	songs, err := scanner.ScanDir("./audios")
 	if err != nil {
 		fmt.Println(err)
 	}
-	readFolder.HashFiles(songs)
-	fp, err := fingerprinting.Fingerprint("audios/kanyewest/30 Hours.mp3")
-	fmt.Printf("fingerprint for the track 30 hours\n%s", fp.FingerPrint)
-	meta, err := fingerprinting.GetMetadata(fp.FingerPrint, fp.Duration, acousticIDAPIKey)
+	scanner.HashFiles(songs)
+	fp, err := acoustid.Fingerprint("audios/kanyewest/30 Hours.mp3")
+	fmt.Printf("fingerprint for the track 30 hours\n%s", fp.Fingerprint)
+	meta, err := acoustid.LookupMetadata(fp.Fingerprint, fp.Duration, acousticIDAPIKey)
 	if err != nil {
 		fmt.Printf("Error looking up fingerprint: %v\n", err)
 		return

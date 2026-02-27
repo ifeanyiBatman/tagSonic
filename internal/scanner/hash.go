@@ -1,4 +1,4 @@
-package readFolder
+package scanner
 
 import (
 	"crypto/sha256"
