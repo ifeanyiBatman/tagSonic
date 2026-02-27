@@ -7,3 +7,5 @@
 *.flac
 *.ogg
 *.m4a
+
+.env
