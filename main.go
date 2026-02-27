@@ -9,12 +9,17 @@ import (
 
 func main() {
 	fmt.Println("Hello World")
-	songs,err := readFolder.ReadDirTolist("./audios")
+	songs, err := readFolder.ReadDirTolist("./audios")
 	if err != nil {
 		fmt.Println(err)
 	}
-	readFolder.HashFiles(songs)	
+	readFolder.HashFiles(songs)
 	fp, err := fingerprinting.Fingerprint("audios/kanyewest/30 Hours.mp3")
-	fmt.Printf("fingerprint for the track 30 hours\n%s",fp.FingerPrint)
-	
+	fmt.Printf("fingerprint for the track 30 hours\n%s", fp.FingerPrint)
+	id, err := fingerprinting.GetIdFromFingerprint(fp.FingerPrint, fp.Duration, "JYBesruRxAQ")
+	if err != nil {
+		fmt.Printf("Error looking up fingerprint: %v\n", err)
+		return
+	}
+	fmt.Printf("\nMatched AcoustID for the track 30 hours: %s\n", id)
 }
