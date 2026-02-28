@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ifeanyiBatman/tagSonic/internal/acoustid"
+	"github.com/ifeanyiBatman/tagSonic/internal/id3tagger"
 	"github.com/ifeanyiBatman/tagSonic/internal/scanner"
 	"github.com/joho/godotenv"
 )
@@ -32,4 +33,14 @@ func main() {
 	fmt.Printf("\nMatched AcoustID for the track 30 hours: %s\n", meta.ID)
 	fmt.Printf("Title: %s\n", meta.Title)
 	fmt.Printf("Artist: %s\n", meta.Artist)
+
+	tags, err := id3tagger.GetID3Tags("audios/kanyewest/30 Hours.mp3")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("Title: %s\n", tags.Title)
+	fmt.Printf("Artist: %s\n", tags.Artist)
+	fmt.Printf("Album: %s\n", tags.Album)
+	fmt.Printf("Genre: %s\n", tags.Genre)
+	fmt.Printf("Year: %s\n", tags.Year)
 }
