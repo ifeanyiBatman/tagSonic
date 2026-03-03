@@ -1,19 +1,18 @@
 package id3tagger
 
 import (
-
 	"fmt"
-	"github.com/bogem/id3v2/v2"
 
+	"github.com/bogem/id3v2/v2"
 )
 
-
 type Tags struct {
-	Title string
-	Artist string
-	Album string
-	Genre string
-	Year string
+	Title       string
+	Artist      string
+	Album       string
+	Genre       string
+	Year        string
+	CoverArtURL string
 }
 
 func GetID3Tags(filepath string) (*Tags, error) {
@@ -24,10 +23,10 @@ func GetID3Tags(filepath string) (*Tags, error) {
 	}
 	defer tags.Close()
 	return &Tags{
-		Title: tags.Title(),
+		Title:  tags.Title(),
 		Artist: tags.Artist(),
-		Album: tags.Album(),
-		Genre: tags.Genre(),
-		Year: tags.Year(),
+		Album:  tags.Album(),
+		Genre:  tags.Genre(),
+		Year:   tags.Year(),
 	}, nil
 }

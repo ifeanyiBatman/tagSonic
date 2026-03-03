@@ -2,6 +2,7 @@
 # Project-specific audio for testing...
 
 /audios/
+/audios3/
 *.mp3
 *.wav
 *.flac
@@ -9,3 +10,5 @@
 *.m4a
 
 .env
+tagSonic_log*.txt
+test..json

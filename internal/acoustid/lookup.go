@@ -15,6 +15,7 @@ type acoustIDResponse struct {
 		ID         string  `json:"id"`
 		Score      float64 `json:"score"`
 		Recordings []struct {
+			ID      string `json:"id"`
 			Title   string `json:"title"`
 			Artists []struct {
 				Name string `json:"name"`
@@ -24,9 +25,11 @@ type acoustIDResponse struct {
 }
 
 type SongMetadata struct {
-	ID     string
-	Title  string
-	Artist string
+	ID            string
+	RecordingMBID string
+	Title         string
+	Artist        string
+	Score         float64
 }
 
 func LookupMetadata(fingerprint string, duration float64, apiKey string) (*SongMetadata, error) {
@@ -70,10 +73,12 @@ func LookupMetadata(fingerprint string, duration float64, apiKey string) (*SongM
 	}
 
 	if len(result.Recordings) > 0 {
+		meta.RecordingMBID = result.Recordings[0].ID
 		meta.Title = result.Recordings[0].Title
 		if len(result.Recordings[0].Artists) > 0 {
 			meta.Artist = result.Recordings[0].Artists[0].Name
 		}
+		meta.Score = result.Score
 	}
 
 	return meta, nil

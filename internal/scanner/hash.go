@@ -3,7 +3,6 @@ package scanner
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"io"
 	"os"
 )
@@ -16,9 +15,6 @@ func HashFiles(filePaths []string) ([]string, error) {
 			return nil, err
 		}
 		hashes = append(hashes, hash)
-	}
-	for _, hash := range hashes {
-		fmt.Println(hash)
 	}
 	return hashes, nil
 }
@@ -36,4 +32,17 @@ func hashFile(filePath string) (string, error) {
 	}
 
 	return hex.EncodeToString(hasher.Sum(nil)), nil
+}
+
+func CheckSongHash(filePath string, hashes []string) (bool) {
+	hash, err := hashFile(filePath)
+	if err != nil {
+		return false
+	}
+	for _, h := range hashes {
+		if h == hash {
+			return true
+		}
+	}
+	return false
 }
