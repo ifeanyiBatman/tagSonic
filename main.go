@@ -240,11 +240,12 @@ func main() {
 	}
 
 	// Write log report
-	writeLogReport(taggedSongs, failedSongs)
+	writeLogReport(targetDir, taggedSongs, failedSongs)
 }
 
-func writeLogReport(tagged []TaggedSong, failed []FailedSong) {
-	file, err := os.Create("tagSonic_log.txt")
+func writeLogReport(targetDir string, tagged []TaggedSong, failed []FailedSong) {
+	logPath := filepath.Join(targetDir, "tagSonic_log.txt")
+	file, err := os.Create(logPath)
 	if err != nil {
 		fmt.Printf("Failed to create log report: %v\n", err)
 		return
@@ -265,5 +266,5 @@ func writeLogReport(tagged []TaggedSong, failed []FailedSong) {
 		file.WriteString(fmt.Sprintf("[ERROR] %s (Reason: %s)\n", song.OriginalFilename, song.Reason))
 	}
 
-	fmt.Printf("Execution finished. Wrote report to tagSonic_log.txt\n")
+	fmt.Printf("Execution finished. Wrote report to %s\n", logPath)
 }
