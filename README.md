@@ -1,23 +1,25 @@
-# tagSonic 🎵
+# tagSonic 
 
 tagSonic is a powerful, automated music tagging CLI tool built in Go. It scans your local audio directories, identifies songs using acoustic fingerprinting, and automatically embeds high-quality metadata and beautiful cover art directly into your MP3 files.
 
-## Purpose
+## Motivation
+
+I had a massive collection of downloaded audio files with missing or incorrect metadata and I couldn't even browse my music by album. I tried using a paid tagging tool to fix things, but it actually made it worse and corrupted parts of my catalog. Frustrated, I decided to build my own solution. Now with tagSonic, I can point it at any folder and have my entire library properly tagged with accurate metadata and cover art in minutes and for free.
 
 Tired of having a music library full of "Track 01" or missing album art? tagSonic eliminates the need to manually tag your downloaded music. 
 
 Unlike simple text-based taggers, tagSonic uses **mathematical audio fingerprinting** to "listen" to your songs. It can identify audio tracks even if the current filename or internal ID3 tags are completely wrong or missing.
 
 ### Key Features
-- 🔍 **Acoustic Fingerprinting:** Uses `fpcalc` and the AcoustID database to identify the actual audio signature of a track.
-- 💿 **Multi-Source Metadata:** Fetches rich metadata primarily from the **iTunes Search API** (for commercial high-resolution data and 1000x1000px cover art), with an integrated fallback to the **MusicBrainz** database.
-- 🧠 **Smart Confidence Scoring:** Evaluates the audio fingerprint score against the existing filename and previous ID3 tags. It implements strict active penalties to prevent false positives (tagging a track as the wrong song).
-- 🖼️ **Cover Art Embedding:** Automatically downloads and injects high-resolution cover art into the MP3 via `id3v2` Attached Picture frames.
-- 📝 **Detailed Logging:** Generates a clean `tagSonic_log.txt` report after every run, detailing exactly which songs were successfully updated and providing reasons for any tracks that were skipped or failed.
+-  **Acoustic Fingerprinting:** Uses `fpcalc` and the AcoustID database to identify the actual audio signature of a track.
+-  **Multi-Source Metadata:** Fetches rich metadata primarily from the **iTunes Search API** (for commercial high-resolution data and 1000x1000px cover art), with an integrated fallback to the **MusicBrainz** database.
+-  **Smart Confidence Scoring:** Evaluates the audio fingerprint score against the existing filename and previous ID3 tags. It implements strict active penalties to prevent false positives (tagging a track as the wrong song).
+-  **Cover Art Embedding:** Automatically downloads and injects high-resolution cover art into the MP3 via `id3v2` Attached Picture frames.
+-  **Detailed Logging:** Generates a clean `tagSonic_log.txt` report after every run, detailing exactly which songs were successfully updated and providing reasons for any tracks that were skipped or failed.
 
 ---
 
-## Quick Start with Docker (Recommended)
+## Quick Start
 
 The easiest way to use tagSonic. No need to install Go, Chromaprint, or anything else — just Docker.
 
@@ -100,7 +102,7 @@ If you'd prefer to run tagSonic natively on your machine.
    ```
    Then edit `.env` and add your AcoustID API key.
 
-### Usage
+## Usage
 
 ```bash
 # Run directly with Go
@@ -116,3 +118,7 @@ If no directory is provided, tagSonic defaults to `./audios`.
 ### Reviewing the Results
 
 Once the program finishes, open the generated `tagSonic_log.txt` file to see a detailed summary of successful tracks and explanations for any skipped files.
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page and submit a pull request.
